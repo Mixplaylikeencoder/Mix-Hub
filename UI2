@@ -1,6 +1,9 @@
 local function antiTamper()
+    -- Получаем информацию о том, откуда был загружен скрипт
     local original_code = debug.getinfo(1, "S").source
-    if original_code ~= "https://raw.githubusercontent.com/Mixplaylikeencoder/Mix-Hub/main/UI2" then
+
+    -- Проверяем, что скрипт был загружен с GitHub
+    if not original_code:find("https://raw.githubusercontent.com/Mixplaylikeencoder/Mix-Hub/main/UI2") then
         error("Tampering detected!")
     end
 end
