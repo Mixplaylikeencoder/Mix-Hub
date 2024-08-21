@@ -1,5 +1,5 @@
 --// library script private
-getgenv().namehub = "Private"
+getgenv().namehub = "Mix Hub"
 local UserInputService = game:GetService('UserInputService')
 local LocalPlayer = game:GetService('Players').LocalPlayer
 local TweenService = game:GetService('TweenService')
@@ -21,8 +21,8 @@ local Library = {
 }
 
 
-if not isfolder("cac hub") then
-    makefolder("cac hub")
+if not isfolder("Mix hub") then
+    makefolder("Mix hub")
 end
 
 function Library:disconnect()
@@ -38,7 +38,7 @@ end
 
 function Library:clear()
 	for _, object in CoreGui:GetChildren() do
-		if object.Name ~= "cac" then
+		if object.Name ~= "Mix" then
 			continue
 		end
 	
@@ -56,13 +56,13 @@ function Library:save_flags()
     if not Library.exist() then return end
 
     local flags = HttpService:JSONEncode(Library.Flags)
-    writefile(`cac hub/{game.GameId}.lua`, flags)
+    writefile(`Mix hub/{game.GameId}.lua`, flags)
 end
 
 function Library:load_flags()
-    if not isfile(`cac hub/{game.GameId}.lua`) then Library.save_flags() return end
+    if not isfile(`Mix hub/{game.GameId}.lua`) then Library.save_flags() return end
 
-    local flags = readfile(`cac hub/{game.GameId}.lua`)
+    local flags = readfile(`Mix hub/{game.GameId}.lua`)
     if not flags then Library.save_flags() return end
 
     Library.Flags = HttpService:JSONDecode(flags)
@@ -139,7 +139,7 @@ end
 
 function Library:new()
 	local container = Instance.new("ScreenGui")
-	container.Name = "cac"
+	container.Name = "Mix"
     container.Parent = CoreGui
 
     Library.core = container
