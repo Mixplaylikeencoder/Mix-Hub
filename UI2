@@ -123,7 +123,7 @@ function Library:new()
     local container = Instance.new("ScreenGui")
     container.Name = "Mix"
     container.Parent = CoreGui
-    self.core = container
+    self.core = container -- Инициализация core
 
     local Shadow = Instance.new("ImageLabel")
     Shadow.Name = "Shadow"
