@@ -1283,15 +1283,18 @@ function rolibwaita:NewWindow(WindowOptions: WindowOptions)
 			function sectionFuncs:NewMultiDropdown(DropdownOptions)
 				local multiDropdownClone = Examples.Dropdown:Clone()
 				local dropButton = multiDropdownClone.DropButton
-				local selectedItems = {}
+				local selectedItems = {}  -- Используем как хеш-таблицу
 			
 				-- Функция для обновления отображения выбранных элементов
 				local function updateDropdownDisplay()
-					local selectedText = table.concat(selectedItems, ", ")
+					local selectedText = ""
+					for item, _ in pairs(selectedItems) do
+						selectedText = selectedText == "" and item or selectedText .. ", " .. item
+					end
 					
-					-- Уменьшение размера шрифта, если количество выбранных элементов слишком большое
-					if #selectedText > 20 then
-						dropButton.Choice.TextSize = 12
+					-- Уменьшение шрифта, если текст слишком длинный
+					if #selectedText > 30 then
+						dropButton.Choice.TextSize = 10
 					else
 						dropButton.Choice.TextSize = 14
 					end
@@ -1299,12 +1302,12 @@ function rolibwaita:NewWindow(WindowOptions: WindowOptions)
 					dropButton.Choice.Text = selectedText ~= "" and selectedText or "Select..."
 				end
 			
-				-- Функция для добавления/удаления элементов из списка выбранных
+				-- Функция для добавления/удаления элемента из выбранных
 				local function toggleSelection(choice)
 					if selectedItems[choice] then
-						selectedItems[choice] = nil
+						selectedItems[choice] = nil  -- Удаляем элемент, если он уже выбран
 					else
-						table.insert(selectedItems, choice)
+						selectedItems[choice] = true  -- Добавляем элемент
 					end
 					updateDropdownDisplay()
 				end
@@ -1324,7 +1327,7 @@ function rolibwaita:NewWindow(WindowOptions: WindowOptions)
 				multiDropdownClone.Parent = sectionClone
 				multiDropdownClone.Drop.Visible = false
 			
-				-- Обработчик нажатия на кнопку DropButton для открытия/закрытия списка
+				-- Открытие/закрытие списка при нажатии на DropButton
 				dropButton.Hitbox.MouseButton1Up:Connect(function()
 					multiDropdownClone.Drop.Visible = not multiDropdownClone.Drop.Visible
 				end)
@@ -1337,8 +1340,7 @@ function rolibwaita:NewWindow(WindowOptions: WindowOptions)
 						multiDropdownClone:Destroy()
 					end,
 				}
-			end
-			
+			end			
 			
 			function sectionFuncs:NewSlider(SliderOptions)
 				local slierClone = Examples.Slider:Clone()
