@@ -43,3 +43,8 @@ return function(text)
         frame:Destroy()
     end)
 end
+
+-- Простой тестовый скрипт на GitHub (пример содержимого файла notif)
+return function(text)
+    print("Уведомление:", text)  -- Просто вывод текста в консоль
+end
