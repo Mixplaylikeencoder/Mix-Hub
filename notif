@@ -1,4 +1,4 @@
-local function notify(text)
+return function(text)
     local plr = game.Players.LocalPlayer
     local gui = plr:WaitForChild("PlayerGui")
     local notifGui = gui:FindFirstChild("NotifUI") 
