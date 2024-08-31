@@ -1279,7 +1279,67 @@ function rolibwaita:NewWindow(WindowOptions: WindowOptions)
 
 				return dropdownFuncs
 			end
-
+			
+			function sectionFuncs:NewMultiDropdown(DropdownOptions)
+				local multiDropdownClone = Examples.Dropdown:Clone()
+				local dropButton = multiDropdownClone.DropButton
+				local selectedItems = {}
+			
+				-- Функция для обновления отображения выбранных элементов
+				local function updateDropdownDisplay()
+					local selectedText = table.concat(selectedItems, ", ")
+					
+					-- Уменьшение размера шрифта, если количество выбранных элементов слишком большое
+					if #selectedText > 20 then
+						dropButton.Choice.TextSize = 12
+					else
+						dropButton.Choice.TextSize = 14
+					end
+			
+					dropButton.Choice.Text = selectedText ~= "" and selectedText or "Select..."
+				end
+			
+				-- Функция для добавления/удаления элементов из списка выбранных
+				local function toggleSelection(choice)
+					if selectedItems[choice] then
+						selectedItems[choice] = nil
+					else
+						table.insert(selectedItems, choice)
+					end
+					updateDropdownDisplay()
+				end
+			
+				-- Добавление элементов в Dropdown
+				for _, choice in pairs(DropdownOptions.Choices) do
+					local choiceButton = Examples.Choice:Clone()
+					choiceButton.Name = choice
+					choiceButton.Title.Text = choice
+					choiceButton.Parent = multiDropdownClone.Drop
+			
+					choiceButton.Hitbox.MouseButton1Click:Connect(function()
+						toggleSelection(choice)
+					end)
+				end
+			
+				multiDropdownClone.Parent = sectionClone
+				multiDropdownClone.Drop.Visible = false
+			
+				-- Обработчик нажатия на кнопку DropButton для открытия/закрытия списка
+				dropButton.Hitbox.MouseButton1Up:Connect(function()
+					multiDropdownClone.Drop.Visible = not multiDropdownClone.Drop.Visible
+				end)
+			
+				return {
+					Edit = function(newOptions)
+						-- Логика редактирования элементов MultiDropdown
+					end,
+					Remove = function()
+						multiDropdownClone:Destroy()
+					end,
+				}
+			end
+			
+			
 			function sectionFuncs:NewSlider(SliderOptions)
 				local slierClone = Examples.Slider:Clone()
 				local bar = slierClone.Container.Bar
