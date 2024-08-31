@@ -34,17 +34,9 @@ return function(text)
     label.Parent = frame
 
     frame:TweenPosition(UDim2.new(0.02, 0, 0.95, 0), "Out", "Quad", 0.5, true)
-
     task.wait(3)
-
     frame:TweenPosition(UDim2.new(0.02, 0, 1, 0), "In", "Quad", 0.5, true)
-
     task.delay(0.5, function()
         frame:Destroy()
     end)
-end
-
--- Простой тестовый скрипт на GitHub (пример содержимого файла notif)
-return function(text)
-    print("Уведомление:", text)  -- Просто вывод текста в консоль
 end
