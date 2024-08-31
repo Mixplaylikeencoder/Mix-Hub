@@ -1,9 +1,13 @@
-local function debugNotify(text)
+return function(text)
     local plr = game.Players.LocalPlayer
     local gui = plr:WaitForChild("PlayerGui")
-    local notifGui = gui:FindFirstChild("NotifUI") or Instance.new("ScreenGui")
-    notifGui.Name = "NotifUI"
-    notifGui.Parent = gui
+    local notifGui = gui:FindFirstChild("NotifUI") 
+
+    if not notifGui then
+        notifGui = Instance.new("ScreenGui")
+        notifGui.Name = "NotifUI"
+        notifGui.Parent = gui
+    end
 
     local frame = Instance.new("Frame")
     frame.Size = UDim2.new(0.2, 0, 0.05, 0)
@@ -29,8 +33,6 @@ local function debugNotify(text)
     label.TextXAlignment = Enum.TextXAlignment.Left
     label.Parent = frame
 
-    print("Создано уведомление:", text)  -- Добавляем отладочный вывод
-
     frame:TweenPosition(UDim2.new(0.02, 0, 0.95, 0), "Out", "Quad", 0.5, true)
 
     task.wait(3)
@@ -39,8 +41,5 @@ local function debugNotify(text)
 
     task.delay(0.5, function()
         frame:Destroy()
-        print("Уведомление удалено.")
     end)
 end
-
-debugNotify("Script loaded!")  -- Вызов для теста
